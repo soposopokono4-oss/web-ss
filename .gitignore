@@ -1,0 +1,21 @@
+# Rahasia dan konfigurasi lokal
+api/config.php
+.env
+.env.*
+!.env.example
+
+# Sistem operasi dan editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Log dan file sementara
+*.log
+*.tmp
+*.bak
+
+# Dependency/build output (jika nanti ditambahkan)
+node_modules/
+vendor/
+dist/

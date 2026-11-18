@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#635bff">
+  <meta name="description" content="SmartStudy - Asisten Belajar Pintar untuk pelajar SMA/SMK.">
+  <title>SmartStudy — Asisten Belajar Pintar</title>
+  <link rel="manifest" href="manifest.json">
+  <link rel="icon" href="icons/icon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <a class="brand" href="#"><span class="brand-mark">✦</span><span>SmartStudy<small>ASISTEN BELAJAR PINTAR</small></span></a>
+      <nav>
+        <button class="nav-link active" data-view="dashboard">⌂ <span>Dashboard</span></button>
+        <button class="nav-link" data-view="schedule">◷ <span>Jadwal Belajar</span></button>
+        <button class="nav-link" data-view="tasks">▤ <span>Manajemen Tugas</span></button>
+        <button class="nav-link" data-view="recommendations">✧ <span>Rekomendasi</span></button>
+        <button class="nav-link" data-view="assistant">✳ <span>AI Study Assistant</span></button>
+        <button class="nav-link" data-view="install"><img class="nav-icon-img" src="icons/install.svg" alt=""> <span>Install Aplikasi</span></button>
+        <button class="nav-link" data-view="developers">♧ <span>Pengembang</span></button>
+      </nav>
+      <div class="sidebar-bottom"><div class="mini-tip">💡 <b>Tips belajar</b><p>Belajar 25 menit, istirahat 5 menit. Konsisten sedikit demi sedikit!</p></div><span class="muted">SmartStudy v1.0</span></div>
+    </aside>
+
+    <main class="main">
+      <header class="topbar">
+        <button class="mobile-brand" id="menuToggle" aria-label="Buka menu">☰</button>
+        <div><span class="eyebrow" id="todayLabel">RUANG BELAJARMU</span><h1 id="pageTitle">Dashboard</h1></div>
+        <div class="top-actions"><button class="theme-toggle" id="themeToggle" type="button" aria-label="Aktifkan tema gelap" title="Ganti tema"><span id="themeIcon">🌙</span><span class="theme-label">Tema</span></button><button class="install-btn" id="installBtn" hidden>＋ Instal Aplikasi</button></div>
+      </header>
+
+      <section class="view active" id="dashboard">
+        <div class="welcome-card">
+          <div><span class="eyebrow light">HALO, PEJUANG MASA DEPAN! 👋</span><h2>Belajar lebih terarah,<br>raih targetmu hari ini.</h2><p>Atur waktu, selesaikan tugas, dan pantau progres belajarmu.</p><button class="primary-btn" data-go="schedule">Atur jadwal belajar <span>→</span></button></div>
+          <div class="welcome-art" aria-hidden="true"><div class="art-orbit">✦</div><div class="art-book">📚</div><div class="art-star">✧</div></div>
+        </div>
+        <div class="stats-grid">
+          <article class="stat-card"><span class="stat-icon purple">◷</span><div><p>Total jadwal</p><strong id="statSchedules">0</strong><small>Rencana belajar</small></div></article>
+          <article class="stat-card"><span class="stat-icon orange">▤</span><div><p>Tugas aktif</p><strong id="statTasks">0</strong><small>Belum selesai</small></div></article>
+          <article class="stat-card"><span class="stat-icon green">✓</span><div><p>Tugas selesai</p><strong id="statDone">0</strong><small>Hebat, teruskan!</small></div></article>
+          <article class="stat-card"><span class="stat-icon blue">◎</span><div><p>Progress</p><strong id="statProgress">0%</strong><small>Penyelesaian tugas</small></div></article>
+        </div>
+        <div class="content-grid">
+          <article class="panel"><div class="panel-heading"><div><span class="eyebrow">RINGKASAN</span><h3>Jadwal belajar berikutnya</h3></div><button class="text-btn" data-go="schedule">Lihat semua →</button></div><div id="dashboardSchedules" class="empty-state">Belum ada jadwal. Yuk, buat rencana belajarmu!</div></article>
+          <article class="panel"><div class="panel-heading"><div><span class="eyebrow">TARGET HARIAN</span><h3>Progress tugas</h3></div><span class="round-icon">🎯</span></div><div class="progress-ring-wrap"><div class="progress-ring" id="progressRing"><div><strong id="ringValue">0%</strong><small>terselesaikan</small></div></div></div><p class="center muted" id="progressCaption">Mulai kerjakan tugas pertamamu.</p></article>
+        </div>
+        <article class="panel"><div class="panel-heading"><div><span class="eyebrow">PERLU DIPERHATIKAN</span><h3>Tugas terdekat</h3></div><button class="text-btn" data-go="tasks">Kelola tugas →</button></div><div id="dashboardTasks" class="empty-state">Belum ada tugas yang dicatat.</div></article>
+      </section>
+
+      <section class="view" id="schedule">
+        <div class="section-intro"><div><span class="eyebrow">ATUR WAKTUMU</span><p>Susun waktu belajar agar kegiatanmu lebih teratur.</p></div></div>
+        <article class="panel form-panel"><h3>＋ Tambah jadwal</h3><form id="scheduleForm" class="form-grid">
+          <label>Mata pelajaran<input name="subject" placeholder="Contoh: Matematika" required maxlength="50"></label>
+          <label>Hari<select name="day" required><option value="">Pilih hari</option><option>Senin</option><option>Selasa</option><option>Rabu</option><option>Kamis</option><option>Jumat</option><option>Sabtu</option><option>Minggu</option></select></label>
+          <label>Waktu mulai<input name="time" type="time" required></label>
+          <label>Durasi<select name="duration"><option>30 menit</option><option selected>60 menit</option><option>90 menit</option><option>120 menit</option></select></label>
+          <label class="full">Catatan (opsional)<input name="note" placeholder="Contoh: Mengulang materi bab 2"></label>
+          <button class="primary-btn full" type="submit">Simpan jadwal</button>
+        </form></article>
+        <article class="panel"><div class="panel-heading"><h3>Daftar jadwal</h3><span class="count-pill" id="scheduleCount">0 jadwal</span></div><div id="scheduleList" class="list-container"></div></article>
+      </section>
+
+      <section class="view" id="tasks">
+        <div class="section-intro"><div><span class="eyebrow">CATAT DAN SELESAIKAN</span><p>Jangan sampai ada tugas yang terlewat tenggat waktunya.</p></div></div>
+        <article class="panel form-panel"><h3>＋ Tambah tugas baru</h3><form id="taskForm" class="form-grid">
+          <label>Nama tugas<input name="title" placeholder="Contoh: Makalah sistem komputer" required maxlength="90"></label>
+          <label>Mata pelajaran<input name="subject" placeholder="Contoh: Informatika" required maxlength="50"></label>
+          <label>Tenggat waktu<input name="due" type="date" required></label>
+          <label>Prioritas<select name="priority"><option>Normal</option><option>Tinggi</option><option>Rendah</option></select></label>
+          <label class="full">Deskripsi (opsional)<textarea name="description" rows="2" placeholder="Detail tugas..."></textarea></label>
+          <button class="primary-btn full" type="submit">Simpan tugas</button>
+        </form></article>
+        <article class="panel"><div class="panel-heading"><h3>Daftar tugas</h3><select id="taskFilter" class="filter-select"><option value="all">Semua tugas</option><option value="active">Belum selesai</option><option value="done">Selesai</option></select></div><div id="taskList" class="list-container"></div></article>
+      </section>
+
+      <section class="view" id="recommendations">
+        <div class="section-intro"><div><span class="eyebrow">BELAJAR DENGAN STRATEGI</span><p>Pilih mata pelajaran dan tingkat kesulitan untuk mendapatkan saran belajar.</p></div></div>
+        <article class="panel form-panel"><form id="recommendForm" class="form-grid"><label>Mata pelajaran<select id="recSubject"><option>Matematika</option><option>Bahasa Indonesia</option><option>Bahasa Inggris</option><option>Informatika</option><option>Fisika</option><option>Kimia</option><option>Biologi</option><option>Sejarah</option><option>Produktif Kejuruan</option></select></label><label>Tingkat kesulitan<select id="recLevel"><option value="mudah">Mudah</option><option value="sedang" selected>Sedang</option><option value="sulit">Sulit</option></select></label><button class="primary-btn full" type="submit">Buat rekomendasi ✨</button></form></article>
+        <div id="recommendResult" class="recommend-grid"><article class="recommend-card"><span class="recommend-icon">🧠</span><h3>Mulai dari tujuan kecil</h3><p>Pilih mata pelajaran dan tingkat kesulitan untuk melihat strategi belajar yang sesuai.</p></article></div>
+      </section>
+
+      <section class="view" id="assistant">
+        <div class="section-intro"><div><span class="eyebrow">TEMAN BELAJAR DIGITAL</span><p>Tanyakan konsep pelajaran dan dapatkan penjelasan awal.</p></div></div>
+        <article class="chat-panel"><div class="chat-header"><div class="bot-avatar">✦</div><div><b>StudyBot</b><small><span class="online-dot"></span> Asisten belajar</small></div><span class="demo-tag">MODE DEMO</span></div><div class="chat-messages" id="chatMessages"><div class="message bot">Halo! Aku StudyBot. 👋<br>Tulis materi yang ingin kamu pahami, misalnya “apa itu fotosintesis?” atau “jelaskan persamaan linear”.</div></div><div class="quick-prompts"><button data-prompt="Jelaskan fotosintesis">Fotosintesis</button><button data-prompt="Apa itu persamaan linear?">Persamaan linear</button><button data-prompt="Jelaskan HTML, CSS, dan JavaScript">HTML, CSS, JS</button></div><form id="chatForm" class="chat-input"><input id="chatInput" placeholder="Tulis pertanyaanmu di sini..." autocomplete="off" required><button class="send-btn" aria-label="Kirim pesan">➤</button></form><p class="chat-disclaimer">Catatan: ini asisten demo berbasis topik dan kata kunci, bukan AI generatif yang terhubung ke internet.</p></article>
+      </section>
+      <section class="view" id="install">
+        <div class="section-intro"><div><span class="eyebrow">SMARTSTUDY DI PERANGKATMU</span><p>Pasang SmartStudy agar lebih mudah dibuka dari layar utama HP atau komputer.</p></div></div>
+        <div class="install-grid">
+          <article class="panel install-feature">
+            <div class="install-large-icon"><img src="icons/icon.svg" alt="Ikon SmartStudy"></div>
+            <span class="eyebrow">REKOMENDASI · PWA</span><h3>Install SmartStudy</h3>
+            <p>Tambahkan aplikasi ke layar utama tanpa perlu membuka browser setiap kali. Pada perangkat yang mendukung, aplikasi dapat dibuka seperti aplikasi biasa.</p>
+            <button class="primary-btn" id="installPageBtn" type="button">⬇ Install Aplikasi</button>
+            <p class="install-hint" id="installHint">Jika tombol belum tersedia, buka menu browser lalu pilih “Install app” atau “Tambahkan ke layar utama”. Gunakan alamat website HTTPS.</p>
+          </article>
+          <article class="panel apk-card">
+            <div class="apk-symbol">APK</div><span class="eyebrow">ANDROID</span><h3>File APK SmartStudy</h3>
+            <p>SmartStudy dapat dipasang langsung di Android sebagai aplikasi PWA. Tidak perlu mengunduh APK dari situs lain.</p>
+            <a class="apk-download" href="#android-install" id="apkDownload">Lihat cara install di Android ↓</a>
+            <small>Gunakan Chrome dan buka website melalui alamat HTTPS agar pemasangan tersedia.</small>
+          </article>
+        </div>
+        <article class="panel install-steps" id="android-install"><h3>Cara memasang langsung di Android</h3><ol><li>Buka website SmartStudy melalui Chrome.</li><li>Pastikan website menggunakan HTTPS.</li><li>Tekan tombol <b>Install Aplikasi</b> pada halaman ini jika muncul.</li><li>Jika tombol belum muncul, buka menu ⋮ Chrome lalu pilih <b>Install aplikasi</b> atau <b>Tambahkan ke layar utama</b>.</li><li>Konfirmasi pemasangan. Ikon SmartStudy akan muncul di layar utama dan daftar aplikasi.</li></ol></article>
+      </section>
+
+      <section class="view" id="developers">
+        <div class="section-intro"><div><span class="eyebrow">DI BALIK SMARTSTUDY</span><p>SmartStudy dikembangkan bersama untuk membantu kegiatan belajar menjadi lebih teratur.</p></div></div>
+        <div class="developer-grid">
+          <article class="panel developer-card"><img src="assets/developer-1.svg" alt="Tempat foto pengembang pertama"><span class="eyebrow">PENGEMBANG 01</span><h3>Nama Kamu</h3><p>Web Developer</p><small>Foto dan biodata dapat diganti nanti.</small></article>
+          <article class="panel developer-card"><img src="assets/developer-2.svg" alt="Tempat foto pengembang kedua"><span class="eyebrow">PENGEMBANG 02</span><h3>Nama Teman</h3><p>Web Developer</p><small>Foto dan biodata dapat diganti nanti.</small></article>
+        </div>
+      </section>
+      <footer>© 2026 SmartStudy · Teman belajar untuk masa depanmu.</footer>
+    </main>
+  </div>
+  <div id="toast" class="toast" role="status"></div>
+  <script src="app.js"></script>
+</body>
+</html>
